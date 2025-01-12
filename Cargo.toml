@@ -6,10 +6,10 @@ build = "build.rs"
 
 [dependencies]
 # ccanvas-packet-build = { path = "../ccanvas-packet-build", version = "*" }
-ccanvas-packet-build = { git = "https://github.com/ccanvas/ccanvas-packet-build", rev = "68eab15" }
+ccanvas-packet-build = { git = "https://github.com/ccanvas/ccanvas-packet-build", rev = "92d4ff1" }
 
 [features]
-default = ["debug"]
+default = ["debug", "connection"]
 debug = []
 
 # inject.packet-features.begin

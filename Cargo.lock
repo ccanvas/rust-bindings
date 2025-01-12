@@ -12,4 +12,4 @@ dependencies = [
 [[package]]
 name = "ccanvas-packet-build"
 version = "0.1.0"
-source = "git+https://github.com/ccanvas/ccanvas-packet-build?rev=68eab15#68eab1536b896bc8ce4beeacdb0570c420f2c21e"
+source = "git+https://github.com/ccanvas/ccanvas-packet-build?rev=92d4ff1#92d4ff196024f6405294b9329241bc56633efd6a"
