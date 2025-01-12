@@ -9,7 +9,7 @@ build = "build.rs"
 ccanvas-packet-build = { git = "https://github.com/ccanvas/ccanvas-packet-build", rev = "92d4ff1" }
 
 [features]
-default = ["debug", "connection"]
+default = []
 debug = []
 
 # inject.packet-features.begin

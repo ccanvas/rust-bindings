@@ -13,15 +13,18 @@ use super::PacketSerde;
 pub enum Group {
     ApprConn,
     RejConn,
-    ReqConn(ReqConn)
+    ReqConn{
+        label: String,
+        socket: Option<String>,
+    }
 }
 
 impl PacketSerde for Group {
     fn to_bytes(self) -> Vec<u8> {
         match self {
-            Self::ReqConn(req) => {
-                let label = req.label.as_bytes();
-                let path = match &req.socket {
+            Self::ReqConn { label, socket} => {
+                let label = label.as_bytes();
+                let path = match &socket {
                     Some(path) => path.as_bytes(),
                     None => &[]
                 };
@@ -60,19 +63,19 @@ impl PacketSerde for Group {
                             path.push(*b);
                         }
 
-                        return Some(Self::ReqConn(ReqConn {
+                        return Some(Self::ReqConn{
                             label: String::from_utf8(label).ok()?,
                             socket: Some(String::from_utf8(path).ok()?)
-                        }));
+                        });
                     }
 
                     label.push(*b);
                 }
 
-                Some(Self::ReqConn(ReqConn {
+                Some(Self::ReqConn {
                     label: String::from_utf8(label).ok()?,
                     socket: None
-                }))
+                })
             },
             1 => Some(Self::ApprConn),
             2 => Some(Self::RejConn),
