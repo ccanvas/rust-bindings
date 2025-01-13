@@ -12,7 +12,7 @@ Request to create a new connection. If a socket path is not supplied then the co
 #### With socket
 
 ```
-1,0,0,[label.utf8],0,[socket.utf8]
+1,0,0,[label.utf8],0,[socket.utf8],0,[echo]
 ```
 
 #### Without socket
@@ -26,7 +26,7 @@ Request to create a new connection. If a socket path is not supplied then the co
 Response if an attached connection is approved.
 
 ```
-1,0,1
+1,0,1,[echo]
 ```
 
 ## [2] RejConn
@@ -34,5 +34,5 @@ Response if an attached connection is approved.
 Response if an attached connection is rejected.
 
 ```
-1,0,2
+1,0,2,[echo]
 ```
