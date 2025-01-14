@@ -2,7 +2,7 @@
 
 Packets related to connections with the ccanvas server.
 
-- Group ID: [1]
+- Group ID: [0]
 - Member ID length: 1
 
 ## [0] ReqConn
@@ -12,13 +12,13 @@ Request to create a new connection. If a socket path is not supplied then the co
 #### With socket
 
 ```
-1,0,0,[label.utf8],0,[socket.utf8],0,[echo]
+1,0,0,[label],0,[socket.utf8],0,[echo]
 ```
 
 #### Without socket
 
 ```
-1,0,0,[label.utf8]
+1,0,0,[label]
 ```
 
 ## [1] ApprConn

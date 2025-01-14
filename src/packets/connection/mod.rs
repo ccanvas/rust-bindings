@@ -28,7 +28,7 @@ impl PacketSerde for Group {
             Self::ReqConn { label, socket } => {
                 let (null_char, path, echo) = match &socket {
                     Some((path, echo)) => (2, path.as_bytes(), echo.as_slice()),
-                    None => (0, [].as_slice(), [].as_slice()),
+                None => (0, [].as_slice(), [].as_slice()),
                 };
 
                 let mut packet =

@@ -15,4 +15,5 @@ debug = []
 
 # inject.packet-features.begin
 connection = []
+subscription = []
 # inject.packet-features.end
