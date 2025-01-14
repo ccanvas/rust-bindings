@@ -3,7 +3,7 @@ use crate::packets::Packet;
 #[test]
 fn reqconn_with_path() {
     let before = Packet::Connection(super::Group::ReqConn {
-        label: "hello".to_string(),
+        label: "hello".to_string().bytes().collect(),
         socket: Some(("socket_path".to_string(), vec![1, 2, 3, 4])),
     });
     let bytes = before.to_bytes();
@@ -18,7 +18,7 @@ fn reqconn_with_path() {
 #[test]
 fn reqconn_without_path() {
     let before = Packet::Connection(super::Group::ReqConn {
-        label: "hello".to_string(),
+        label: "hello".to_string().bytes().collect(),
         socket: None,
     });
     let bytes = before.to_bytes();

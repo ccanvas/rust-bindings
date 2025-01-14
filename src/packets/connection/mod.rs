@@ -16,16 +16,16 @@ pub enum Group {
         echo: Vec<u8>,
     },
     ReqConn {
-        label: String,
+        label: Vec<u8>,
         socket: Option<(String, Vec<u8>)>,
     },
+    Terminate,
 }
 
 impl PacketSerde for Group {
     fn to_bytes(&self) -> Vec<u8> {
         match self {
             Self::ReqConn { label, socket } => {
-                let label = label.as_bytes();
                 let (null_char, path, echo) = match &socket {
                     Some((path, echo)) => (2, path.as_bytes(), echo.as_slice()),
                     None => (0, [].as_slice(), [].as_slice()),
@@ -61,7 +61,7 @@ impl PacketSerde for Group {
                 packet[0] = 1;
                 packet[1] = 0;
                 packet[2] = 1;
-                packet[3..].copy_from_slice(&echo);
+                packet[3..].copy_from_slice(echo);
                 packet
             }
             Self::RejConn { echo } => {
@@ -74,9 +74,10 @@ impl PacketSerde for Group {
                 packet[0] = 1;
                 packet[1] = 0;
                 packet[2] = 2;
-                packet[3..].copy_from_slice(&echo);
+                packet[3..].copy_from_slice(echo);
                 packet
             }
+            Self::Terminate => vec![1,0,3]
         }
     }
 
@@ -94,7 +95,7 @@ impl PacketSerde for Group {
                         let mut path = Vec::new();
                         let mut echo = Vec::new();
 
-                        while let Some(b) = iter.next() {
+                        for b in iter.by_ref() {
                             if b == &0 {
                                 break;
                             }
@@ -102,12 +103,12 @@ impl PacketSerde for Group {
                             path.push(*b);
                         }
 
-                        while let Some(b) = iter.next() {
+                        for b in iter.by_ref() {
                             echo.push(*b);
                         }
 
                         return Some(Self::ReqConn {
-                            label: String::from_utf8(label).ok()?,
+                            label,
                             socket: Some((unsafe { String::from_utf8_unchecked(path) }, echo)),
                         });
                     }
@@ -116,7 +117,7 @@ impl PacketSerde for Group {
                 }
 
                 Some(Self::ReqConn {
-                    label: String::from_utf8(label).ok()?,
+                    label,
                     socket: None,
                 })
             }
@@ -126,6 +127,7 @@ impl PacketSerde for Group {
             2 => Some(Self::RejConn {
                 echo: bytes[1..].to_vec(),
             }),
+            3 => Some(Self::Terminate),
             _ => None,
         }
     }

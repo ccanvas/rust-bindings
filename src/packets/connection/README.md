@@ -36,3 +36,11 @@ Response if an attached connection is rejected.
 ```
 1,0,2,[echo]
 ```
+
+## [3] Terminate
+
+Clients or servers receiving this should exit immediately.
+
+```
+1,0,3
+```
